@@ -95,6 +95,7 @@ body {
    ========================= */
 
 .title-container {
+  z-index: -1;
   display: flex;
   background-color: black;
   flex-direction: column;
@@ -110,7 +111,6 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: calc(4rem + 1vw);
-
 }
 
 /* Title without margin */
@@ -121,19 +121,54 @@ body {
   
 }
 
+.title-btn-container {
+        margin-top: calc(4rem + 1vw);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
 .title-t {
   color: white;
-  font-size: clamp(2rem, 4rem + 1vw, 6rem);
-  font-family: 'Orbitron', 'Courier New', Courier, monospace;
-  animation: fadeIn 2s ease-in-out forwards;
+  font-size: clamp(2.5rem, 5rem + 1.2vw, 7rem);
+  animation: fadeIn 1.5s ease-in-out forwards;
 }
 
 .title-t2 {
   color: white;
-  font-size: clamp(1rem, 1.5rem + 0.5vw, 2.5rem);
-  font-family: 'Orbitron', 'Courier New', Courier, monospace;
+  font-size: clamp(1.2rem, 2rem + 0.6vw, 3rem);
   opacity: 0;
 }
+
+
+.title-btn {
+  font-size: clamp(0.9rem, 1.3rem + 0.4vw, 2rem);
+  font-family: 'Orbitron', system-ui, sans-serif;
+  color: white;
+  background: rgba(255, 255, 255, 0.05);  /* translucent dark surface */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;  /* curved rectangle */
+  padding: 0.8rem 2rem;   /* space inside button */
+  text-decoration: none;  /* removes underline if it's a link */
+  text-align: center;
+  cursor: pointer;
+  opacity: 0;  /* starts hidden for your animation */
+  transition: all 0.25s ease-in-out;
+}
+
+.title-btn:hover {
+  background: white;              /* fill background fully */
+  color: black;                   /* invert text color */
+  transform: scale(1.08);         /* slightly larger (8% bigger) */
+  border-color: white;            /* keeps edge clean */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* soft glow */
+}
+
+.title-btn:active {
+  transform: scale(1.02); /* slight push-in when clicked */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
 
 .description {
         font-size: clamp(1rem, 1.5rem + 0.5vw, 2.5rem);
