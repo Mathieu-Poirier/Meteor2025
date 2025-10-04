@@ -1,0 +1,15 @@
+html,body {
+        margin:0;
+        height:100%;
+        background:#0b0f18
+}
+.ui {
+        position:fixed;
+        left:12px;
+        top:12px;
+        font:14px system-ui;
+        color :white;
+}
+.ui input{
+        width:220px
+}
