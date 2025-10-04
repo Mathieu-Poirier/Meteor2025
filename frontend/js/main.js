@@ -1,7 +1,15 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+document.addEventListener('DOMContentLoaded', () => {
+  const title = document.querySelector('.title-t');
+  const sub = document.querySelector('.title-t2');
 
+  title.addEventListener('animationend', () => {
+    console.log('First animation done');
+    sub.style.animation = 'fadeIn 2s ease-in-out forwards';
+  });
+});
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
