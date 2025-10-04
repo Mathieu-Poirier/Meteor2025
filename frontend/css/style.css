@@ -12,6 +12,15 @@
   font-style: italic;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Initial state: fully transparent */
+  }
+  to {
+    opacity: 1; /* Final state: fully opaque */
+  }
+}
+
 html,body {
         margin:0;
         height:100%;
@@ -31,7 +40,13 @@ html,body {
 
 .title-c {
         display: flex;
-        margin-top: 25%;
+        margin-top: calc(4rem + 1vw);
+        justify-content: center;
+        align-items: center;
+        background-color: brown;
+}
+.title-no-margin {
+        display: flex;
         justify-content: center;
         align-items: center;
         background-color: brown;
@@ -41,4 +56,5 @@ html,body {
         color: white;
         font-size: calc(4rem + 1vw);
         font-family: 'Geo', 'Courier New', Courier, monospace;
+        animation: fadeIn 2s ease-in-out forwards;
 }
