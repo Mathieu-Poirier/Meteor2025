@@ -56,7 +56,7 @@ html,
 body {
   margin: 0;
   height: 100%;
-  background: #0b0f18;
+  background: white;
   font-family: 'Geo', 'Orbitron', system-ui, sans-serif;
   color: white;
 }
@@ -96,10 +96,11 @@ body {
 
 .title-container {
   display: flex;
+  background-color: black;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
 }
 
 /* Title with margin */
@@ -128,17 +129,14 @@ body {
 
 .title-t2 {
   color: white;
-  font-size: clamp(2rem, 4rem + 1vw, 6rem);
+  font-size: clamp(1rem, 1.5rem + 0.5vw, 2.5rem);
   font-family: 'Orbitron', 'Courier New', Courier, monospace;
   opacity: 0;
 }
-/* Make canvas full screen and remove the white background */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #000; /* black background */
-  overflow: hidden;
+
+.description {
+        color: white;
+        height: 2vh;
 }
 
 canvas {
