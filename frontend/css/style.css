@@ -132,3 +132,17 @@ body {
   font-family: 'Orbitron', 'Courier New', Courier, monospace;
   opacity: 0;
 }
+/* Make canvas full screen and remove the white background */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000; /* black background */
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}

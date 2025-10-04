@@ -2,17 +2,25 @@
 <html>
 <head>
   <meta charset="utf-8" />
+  <title>Earth Demo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+
+    }
+  }
+  </script>
   <title>METEOR2025 — Earth Crater</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="css/style.css" />
   <script type="module" src="main.js"></script>
 </head>
 <body>
-  <div class="ui">
-    <label>Crater diameter (km):
-      <input id="craterKm" type="range" min="20" max="800" step="10" value="120">
-    </label> <span id="val">120</span>
-  </div>
-  <canvas class="canvas"></canvas>
+  <button id="launch"> Launch Asteroid</button>
+
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>
