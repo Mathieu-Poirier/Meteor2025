@@ -57,7 +57,7 @@ body {
   margin: 0;
   height: 100%;
   background: white;
-  font-family: 'Geo', 'Orbitron', system-ui, sans-serif;
+  font-family: 'Orbitron', system-ui, sans-serif;
   color: white;
 }
 
@@ -100,6 +100,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   height: 100vh;
 }
 
@@ -135,8 +136,12 @@ body {
 }
 
 .description {
-        color: white;
-        height: 2vh;
+        font-size: clamp(1rem, 1.5rem + 0.5vw, 2.5rem);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        height: auto;
 }
 
 canvas {
