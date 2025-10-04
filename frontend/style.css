@@ -1,7 +1,22 @@
+@font-face {
+  font-family: 'Geo';
+  src: url('../fonts/Geo/Geo-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geo';
+  src: url('../fonts/Geo/Geo-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
 html,body {
         margin:0;
         height:100%;
-        background:#0b0f18
+        background:#0b0f18;
+        font-family: 'Geo', sans-serif;
 }
 .ui {
         position:fixed;
@@ -12,4 +27,18 @@ html,body {
 }
 .ui input{
         width:220px
+}
+
+.title-c {
+        display: flex;
+        margin-top: 25%;
+        justify-content: center;
+        align-items: center;
+        background-color: brown;
+}
+
+.title-t {
+        color: white;
+        font-size: calc(4rem + 1vw);
+        font-family: 'Geo', 'Courier New', Courier, monospace;
 }
