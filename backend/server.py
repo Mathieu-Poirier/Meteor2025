@@ -1,9 +1,14 @@
-from typing import Union
-
 from fastapi import FastAPI
+import httpx
+
+# Opening the APIKey
+f = open("../api.txt")
+KEY: str = f.read().strip(" ")
 
 app = FastAPI()
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+# @app.get("/cross_keplarian")
+# def read_item(asteroid_id: int):
+    
+#     return {"item_id": item_id, "q": q}
+
