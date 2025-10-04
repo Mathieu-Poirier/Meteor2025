@@ -40,12 +40,22 @@ loader.load(
   (err) => console.error('Failed to load Earth:', err)
 );
 
-
+//load asteroid
 loader.load('/models/asteroid/asteroid.gltf', (gltf) => {
   const asteroid = gltf.scene;
+  asteroid.scale.setScalar(0.2);
+  asteroid.position.set(-earthRadius * 2.0, earthRadius * 0.4, 0); 
   scene.add(asteroid);
 });
 
+//asteroi interaction on button 
+const launchbutton = document.getElementById('launch')
+launchbutton.addEventListener('click',() => {
+  if (!asteroid || !earth) return;
+  const dir = new THREE.Vector3(0,0,0).sub(asteroid.position).normalize();
+  asteroidVel.copy(dir).multiplyScalar(ASTEROID_SPEED);
+  flying = true;
+});
 
 function animate() {
   requestAnimationFrame(animate);

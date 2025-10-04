@@ -52,14 +52,7 @@
    GLOBAL / PAGE LAYOUT
    ========================= */
 
-html,
-body {
-  margin: 0;
-  height: 100%;
-  background: #0b0f18;
-  font-family: 'Geo', 'Orbitron', system-ui, sans-serif;
-  color: white;
-}
+   
 
 /* =========================
    KEYFRAMES
