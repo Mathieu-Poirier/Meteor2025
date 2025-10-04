@@ -1,3 +1,137 @@
+/* =========================
+   FONT DEFINITIONS
+   ========================= */
+
+@font-face {
+  font-family: 'Geo';
+  src: url('../fonts/Geo/Geo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geo';
+  src: url('../fonts/Geo/Geo-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Optional: Orbitron family setup */
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron//static/Orbitron-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron//static/Orbitron-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron//static/Orbitron-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron//static/Orbitron-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../fonts/Orbitron//static/Orbitron-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+/* =========================
+   GLOBAL / PAGE LAYOUT
+   ========================= */
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #0b0f18;
+  font-family: 'Geo', 'Orbitron', system-ui, sans-serif;
+  color: white;
+}
+
+/* =========================
+   KEYFRAMES
+   ========================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================
+   UI ELEMENTS
+   ========================= */
+
+.ui {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  font: 14px system-ui;
+  color: white;
+}
+
+.ui input {
+  width: 220px;
+}
+
+/* =========================
+   TITLES / HEADERS
+   ========================= */
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Title with margin */
+.title-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: calc(4rem + 1vw);
+
+}
+
+/* Title without margin */
+.title-no-margin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.title-t {
+  color: white;
+  font-size: clamp(2rem, 4rem + 1vw, 6rem);
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.title-t2 {
+  color: white;
+  font-size: clamp(2rem, 4rem + 1vw, 6rem);
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
+  opacity: 0;
+}
 /* Make canvas full screen and remove the white background */
 html, body {
   margin: 0;
