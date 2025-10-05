@@ -6,17 +6,13 @@
   font-family: 'Geo';
   src: url('../fonts/Geo/Geo-Regular.ttf') format('truetype');
   font-weight: 400;
-  font-style: normal;
 }
-
 @font-face {
   font-family: 'Geo';
   src: url('../fonts/Geo/Geo-Italic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
 }
-
-/* Optional: Orbitron family setup */
 @font-face {
   font-family: 'Orbitron';
   src: url('../fonts/Orbitron/static/Orbitron-Regular.ttf') format('truetype');
@@ -24,108 +20,50 @@
 }
 @font-face {
   font-family: 'Orbitron';
-  src: url('../fonts/Orbitron//static/Orbitron-Medium.ttf') format('truetype');
+  src: url('../fonts/Orbitron/static/Orbitron-Medium.ttf') format('truetype');
   font-weight: 500;
 }
 @font-face {
   font-family: 'Orbitron';
-  src: url('../fonts/Orbitron//static/Orbitron-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-}
-@font-face {
-  font-family: 'Orbitron';
-  src: url('../fonts/Orbitron//static/Orbitron-Bold.ttf') format('truetype');
+  src: url('../fonts/Orbitron/static/Orbitron-Bold.ttf') format('truetype');
   font-weight: 700;
 }
 @font-face {
   font-family: 'Orbitron';
-  src: url('../fonts/Orbitron//static/Orbitron-ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-}
-@font-face {
-  font-family: 'Orbitron';
-  src: url('../fonts/Orbitron//static/Orbitron-Black.ttf') format('truetype');
+  src: url('../fonts/Orbitron/static/Orbitron-Black.ttf') format('truetype');
   font-weight: 900;
 }
 
 /* =========================
-   GLOBAL / PAGE LAYOUT
+   GLOBAL BASE STYLES
    ========================= */
 
 html,
 body {
   margin: 0;
+  padding: 0;
   height: 100%;
-  background: white;
   font-family: 'Orbitron', system-ui, sans-serif;
+  background: white;
   color: white;
+  overflow-x: hidden;
 }
 
 /* =========================
-   KEYFRAMES
-   ========================= */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* =========================
-   UI ELEMENTS
-   ========================= */
-
-.ui {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  font: 14px system-ui;
-  color: white;
-}
-
-.ui input {
-  width: 220px;
-}
-
-/* =========================
-   TITLES / HEADERS
+   HERO SECTION
    ========================= */
 
 .title-container {
-  z-index: -1;
   display: flex;
-  background-color: black;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  text-align: center;
   height: 100vh;
-}
-
-/* Title with margin */
-.title-c {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: calc(4rem + 1vw);
-}
-
-/* Title without margin */
-.title-no-margin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-}
-
-.title-btn-container {
-        margin-top: calc(4rem + 1vw);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  background-color: black;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  padding-inline: clamp(1rem, 4vw, 4rem);
+  z-index: 1;
 }
 
 .title-t {
@@ -138,21 +76,27 @@ body {
   color: white;
   font-size: clamp(1.2rem, 2rem + 0.6vw, 3rem);
   opacity: 0;
+  margin-top: 1rem;
 }
 
+.title-btn-container {
+  margin-top: clamp(2rem, 4vw, 4rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+/* Button */
 .title-btn {
+  font-family: 'Orbitron', system-ui, sans-serif;
   position: relative;
   display: inline-block;
-  font-size: clamp(0.9rem, 1.3rem + 0.4vw, 2rem);
-  font-family: 'Orbitron', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.2rem + 0.3vw, 1.8rem);
   color: white;
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 1.5rem;
   padding: 0.8rem 2rem;
-  text-decoration: none;
-  text-align: center;
   cursor: pointer;
   overflow: hidden;
   opacity: 0;
@@ -162,36 +106,104 @@ body {
     transform 0.25s ease-in-out,
     border 0.25s ease-in-out,
     box-shadow 0.25s ease-in-out;
-  z-index: 0;
+  z-index: 2;
 }
 
-/* Simple hover: highlight fully */
 .title-btn:hover {
-  background: white;                /* fully white highlight */
-  color: black;                     /* invert text color */
-  transform: scale(1.08);           /* gentle pop */
-  border-color: white;              /* clean edge */
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* soft glow */
+  background: white;
+  color: black;
+  transform: scale(1.08);
+  border-color: white;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
-/* Press down effect */
 .title-btn:active {
   transform: scale(1.02);
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
+/* =========================
+   DIALS + SECOND TITLE SECTION
+   ========================= */
 
 .description {
-        font-size: clamp(1rem, 1.5rem + 0.5vw, 2.5rem);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: black;
-        height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 5rem);
+  padding-block: 2rem;
+  background: white;
+  color: black;
+  text-align: center;
+  box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.15);
+  flex-wrap: wrap;
 }
 
-canvas {
-  display: block;
-  width: 100vw;
-  height: 100vh;
+.description h2 {
+  font-size: clamp(1.5rem, 3vw + 1rem, 3rem);
+  margin: 0;
+}
+
+/* DIALS */
+.dial {
+  position: relative;
+  width: clamp(60px, 7vw, 90px);
+  height: clamp(60px, 7vw, 90px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #222 0%, #000 100%);
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 255, 0.1),
+    0 0 10px rgba(0, 0, 0, 0.6);
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  cursor: grab;
+}
+
+.dial:active {
+  cursor: grabbing;
+  transform: scale(0.97);
+  box-shadow:
+    inset 0 0 15px rgba(255, 255, 255, 0.15),
+    0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.dial-indicator {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  width: 3px;
+  height: 30%;
+  background: white;
+  border-radius: 2px;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(0deg);
+  pointer-events: none;
+  transition: none; /* smoother drag */
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* =========================
+   RESPONSIVENESS
+   ========================= */
+
+@media (max-width: 768px) {
+  .title-t {
+    font-size: clamp(2rem, 4vw + 2rem, 4rem);
+  }
+  .title-t2 {
+    font-size: clamp(1rem, 3vw + 1rem, 2rem);
+  }
+  .description {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
