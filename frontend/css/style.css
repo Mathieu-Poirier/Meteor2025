@@ -54,17 +54,48 @@ body {
    ========================= */
 
 .title-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  height: 100vh;
   background-color: black;
+  height: 100vh;
+  overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-  padding-inline: clamp(1rem, 4vw, 4rem);
-  z-index: 1;
+
+  /* 👇 prevent text selection and highlighting */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
+
+.title-c {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* center-align inline text */
+}
+
+
+.star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  fill: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 1s ease-in-out; /* smooth fade */
+  transform: translate(-70%, -70%) scale(1);
+}
+
+
+
 
 .title-t {
   color: white;
@@ -181,6 +212,33 @@ body {
   pointer-events: none;
   transition: none; /* smoother drag */
 }
+
+.dial-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dial-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Orbitron', system-ui, sans-serif;
+  color: black;
+}
+
+.label-title {
+  font-size: clamp(0.9rem, 1vw + 0.3rem, 1.2rem);
+  opacity: 0.8;
+}
+
+.label-value {
+  font-size: clamp(1rem, 1vw + 0.4rem, 1.4rem);
+  font-weight: 700;
+  color: #111;
+}
+
 
 /* =========================
    ANIMATIONS

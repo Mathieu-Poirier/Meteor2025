@@ -1,33 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>METEOR2025 — Asteroid Simulation</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
-        <div name="title-and-sub-container" class="title-container">
-                <div name="title_card" class="title-c">
-                        <h1 name="title_text" class="title-t">The Year is 20XX</h1>
-                </div>
-                <div name="title_text"class="title-no-margin">
-                        <p  name="title_sub" class="title-t2">It's your job to defend the earth</p>
-                </div>
-                <div name="title_button_container"class="title-btn-container">
-                        <button name="title_button"class="title-btn">Enter the simulation ...</button>
-                </div>
+  <header class="title-container">
+    <svg class="star" viewBox="0 0 100 100" aria-hidden="true">
+      <polygon points="50,10 61,40 95,40 67,60 78,90 50,70 22,90 33,60 5,40 39,40" fill="white" />
+    </svg>
+
+    <div class="title-c">
+      <h1 class="title-t">The Year is 20XX</h1>
+      <p class="title-t2">It's your job to defend the earth</p>
+    </div>
+
+    <div class="title-btn-container">
+      <button class="title-btn" aria-label="Enter simulation">Enter The Simulation</button>
+    </div>
+  </header>
+
+  <main>
+    <article class="description" aria-labelledby="simulator-title">
+      <div class="dial-group">
+        <div class="dial dial-left" role="slider" aria-valuemin="-0.01" aria-valuemax="0.05" aria-valuenow="0.004" aria-label="Gravity dial">
+          <div class="dial-indicator"></div>
         </div>
-        <article class="description">
-                <div class="dial dial-left">
-                        <div class="dial-indicator"></div>
-                </div>
-                <h2 class="article_title">Our Asteroid Simulator</h2>
-                <div class="dial dial-right">
-                        <div class="dial-indicator"></div>
-                </div>
-        </article>
-        <script type="module" src="js/title_listener.js"></script>
-        <script type="module" src="js/dials.js"></script>
+        <div class="dial-label">
+          <span class="label-title"><strong>Gravity</strong></span>
+          <span class="label-value" id="gravity-value">0.004</span>
+        </div>
+      </div>
+
+      <h2 id="simulator-title" class="article_title">Our Asteroid Simulator</h2>
+
+      <div class="dial-group">
+        <div class="dial dial-right" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.65" aria-label="Bounce dial">
+          <div class="dial-indicator"></div>
+        </div>
+        <div class="dial-label">
+          <span class="label-title"><strong>Bounce</strong></span>
+          <span class="label-value" id="bounce-value">0.65</span>
+        </div>
+      </div>
+    </article>
+    <article class="write-up">
+    </article>
+  </main>
+
+  <script type="module" src="js/dials.js"></script>
+  <script type="module" src="js/title_listener.js"></script>
 </body>
 </html>
