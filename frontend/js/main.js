@@ -1,73 +1,97 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FlyControls } from 'three/addons/controls/FlyControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-document.addEventListener('DOMContentLoaded', () => {
-  const title = document.querySelector('.title-t');
-  const sub = document.querySelector('.title-t2');
 
-  title.addEventListener('animationend', () => {
-    console.log('First animation done');
-    sub.style.animation = 'fadeIn 2s ease-in-out forwards';
-  });
-});
+let earth = null;
+let asteroid = null;
+let flying = false;              
 
+// --- scene / camera / renderer ---
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 1000);
+
+// free camera starting pose 
+camera.position.set(10, 5, 12);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
-//controls
-const controls = new OrbitControls(camera, renderer.domElement)
+/* controls (free orbit/pan/zoom)
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+*/
 
-// Load Earth
+//free look
+const controls = new FlyControls(camera, renderer.domElement);
+controls.movementSpeed = 10;     // how fast you move
+controls.rollSpeed = Math.PI / 24; // how fast you turn with Q/E
+controls.autoForward = false; 
+controls.dragToLook = true;     // click+drag to look around
+
+
+// simple light so models aren’t black
+scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+const sun = new THREE.DirectionalLight(0xffffff, 1);
+sun.position.set(5, 6, 4);
+scene.add(sun);
+
+// --- load models ---
 const loader = new GLTFLoader();
-loader.load(
-  '/models/earth/earth.gltf',  
-  (gltf) => {
-    const earth = gltf.scene;
-    scene.add(earth);
 
-    // center and fit in camera view
-    const box = new THREE.Box3().setFromObject(earth);
-    const size = box.getSize(new THREE.Vector3()).length();
-    const center = box.getCenter(new THREE.Vector3());
-    earth.position.sub(center);
+// Earth
+loader.load('/models/earth/earth.gltf', (gltf) => {
+  earth = gltf.scene;
+  scene.add(earth);
 
-    const fitDist = size / (2 * Math.tan((camera.fov * Math.PI) / 360));
-    camera.position.set(0, 0, fitDist * 1.2);
-    camera.near = fitDist / 100;
-    camera.far = fitDist * 100;
-    camera.updateProjectionMatrix();
-  },
-  (xhr) => console.log(`Earth ${(xhr.loaded/(xhr.total||1)*100).toFixed(1)}%`),
-  (err) => console.error('Failed to load Earth:', err)
-);
+  const box = new THREE.Box3().setFromObject(earth);
+  const center = box.getCenter(new THREE.Vector3());
+  earth.position.sub(center);
+  //creation of sphere for walls
+   const sphere = new THREE.Sphere();
+  box.getBoundingSphere(sphere);
+  earth.scale.setScalar(0.001);
 
-//load asteroid
+});
+
+// Asteroid
 loader.load('/models/asteroid/asteroid.gltf', (gltf) => {
-  const asteroid = gltf.scene;
-  asteroid.scale.setScalar(0.2);
-  asteroid.position.set(-earthRadius * 2.0, earthRadius * 0.4, 0); 
+  asteroid = gltf.scene;
+  asteroid.scale.setScalar(0.02);   
+  asteroid.position.set(-30, 0, 0); 
   scene.add(asteroid);
 });
 
-//asteroi interaction on button 
-const launchbutton = document.getElementById('launch')
-launchbutton.addEventListener('click',() => {
+//launch button
+const launchBtn = document.getElementById('launch');
+launchBtn?.addEventListener('click', () => {
   if (!asteroid || !earth) return;
-  const dir = new THREE.Vector3(0,0,0).sub(asteroid.position).normalize();
-  asteroidVel.copy(dir).multiplyScalar(ASTEROID_SPEED);
   flying = true;
 });
 
+const clock = new THREE.Clock();
+
 function animate() {
   requestAnimationFrame(animate);
-  controls.update();
+
+  const delta = clock.getDelta();
+  controls.update(delta);  
+
+  // asteroid logic
+  if (flying && asteroid) {
+    asteroid.position.x += 0.55;
+    if (asteroid.position.x >= 0) {
+      flying = false;
+      console.log('Impact!');
+    }
+  }
+
   renderer.render(scene, camera);
 }
 animate();
+
+
+
