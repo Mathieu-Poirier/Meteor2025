@@ -15,55 +15,94 @@
     }
   }
   </script>
+  <script type="module" src="js/main.js" defer></script>
+
+  <style>
+    /* ====== Hover Animations ====== */
+    label, input[type="range"], span {
+      transition: all 0.25s ease;
+    }
+
+    label:hover {
+      color: #0ff;
+      transform: scale(1.05);
+    }
+
+    input[type="range"]:hover {
+      filter: drop-shadow(0 0 6px #0ff);
+      transform: scaleX(1.05);
+    }
+
+    span:hover {
+      color: #ff0;
+      transform: scale(1.2);
+    }
+
+    #controls {
+      margin: 1rem;
+      padding: 1rem;
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,255,255,0.3);
+    }
+
+    #controls h3 {
+      margin-top: 0;
+      text-align: center;
+      color: white;
+    }
+
+    #asteroidId {
+      padding: 0.3rem;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #444;
+    }
+
+    button[type="submit"] {
+      padding: 0.3rem 0.6rem;
+      border: none;
+      border-radius: 4px;
+      background: white;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.25s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: #00aaff;
+      color: #fff;
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 <body>
   <!-- Controls UI -->
   <div id="controls">
     <form id="asteroidForm">
-      <input type="text" id="asteroidId" placeholder="Enter asteroid ID" />
+      <!-- Pre-filled with sample asteroid ID + name -->
+      <input type="text" id="asteroidId" placeholder="Enter asteroid ID" value="3542519" />
       <button type="submit">Load Asteroid</button>
     </form>
 
-    <div id="sliders">
-      <label>
-        a:
-        <input type="range" id="aSlider" min="0.5" max="3" step="0.01" value="1">
-        <span id="aVal">1</span>
-      </label>
-      <br>
-      <label>
-        e:
-        <input type="range" id="eSlider" min="0" max="1" step="0.01" value="0.1">
-        <span id="eVal">0.1</span>
-      </label>
-      <br>
-      <label>
-        i:
-        <input type="range" id="iSlider" min="0" max="180" step="1" value="0">
-        <span id="iVal">0</span>
-      </label>
-    </div>
+    <h3>Adjust Orbit Parameters</h3>
+    
+    <label for="aSlider">Semi-major axis (a)</label>
+    <input id="aSlider" type="range" min="0.5" max="2.0" step="0.01" value="1" />
+    <span id="aValue">1.00</span>
+    <br />
+
+    <label for="eSlider">Eccentricity (e)</label>
+    <input id="eSlider" type="range" min="0.0" max="1.0" step="0.01" value="0.1" />
+    <span id="eValue">0.10</span>
+    <br />
+
+    <label for="iSlider">Inclination (i, deg)</label>
+    <input id="iSlider" type="range" min="0" max="180" step="1" value="10" />
+    <span id="iValue">10</span>
   </div>
 
-  <!-- The Three.js scene will inject its canvas here -->
-  <script type="module" src="js/main.js"></script>
-
-  <!-- Inline script to update displayed values -->
-  <script>
-    const sliders = [
-      { id: "aSlider", valId: "aVal" },
-      { id: "eSlider", valId: "eVal" },
-      { id: "iSlider", valId: "iVal" }
-    ];
-
-    sliders.forEach(({id, valId}) => {
-      const slider = document.getElementById(id);
-      const val = document.getElementById(valId);
-      slider.addEventListener("input", () => {
-        val.textContent = slider.value;
-      });
-    });
-  </script>
 </body>
 </html>
-

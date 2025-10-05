@@ -1,43 +1,44 @@
 from fastapi import FastAPI, Query
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-import httpx
-import asyncio
-import math
-import os
+import httpx, asyncio, math, os
 
 app = FastAPI()
 
-# Allow frontend JS fetch calls (if you open index.html separately)
+# Allow frontend JS fetch calls (local dev / hackathon mode)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # in hackathon mode, keep open
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mount frontend (so index.html is served directly)
+# -------------------------
+# Frontend Paths
+# -------------------------
 frontend_path = os.path.join(os.path.dirname(__file__), "../frontend")
-app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
-# Opening the APIKey
+@app.get("/")
+def serve_index():
+    return FileResponse(os.path.join(frontend_path, "index.html"))
+
+@app.get("/simulation")
+def serve_simulation():
+    return FileResponse(os.path.join(frontend_path, "simulation.html"))
+
+# Mount static assets
+app.mount("/models", StaticFiles(directory=os.path.join(frontend_path, "models")), name="models")
+app.mount("/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js")
+app.mount("/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css")
+app.mount("/fonts", StaticFiles(directory=os.path.join(frontend_path, "fonts")), name="fonts")
+app.mount("/public", StaticFiles(directory=os.path.join(frontend_path, "public")), name="public")
+
+# -------------------------
+# API Endpoints
+# -------------------------
 with open(os.path.join(os.path.dirname(__file__), "../api.txt")) as f:
     KEY: str = f.read().strip(" ")
-
-# Date to search (if needed later)
-date_str_start: str = "2025-09-29"
-date_str_end: str = "2025-10-04"
-
-# Earth orbitals (constant baseline)
-earth = {
-    "a": 1.00000011,
-    "e": 0.01671022,
-    "i": 0.00005,
-    "om": -11.26064,
-    "w": 102.94719,
-    "ma": 100.46435,
-    "epoch": 2451545.0,
-}
 
 @app.get("/cross_keplarian")
 async def cross_keplarian(asteroid_id: str):
@@ -48,7 +49,7 @@ async def cross_keplarian(asteroid_id: str):
         )
         neo, sbdb = neo_resp.json(), sbdb_resp.json()
 
-    # ---- Orbitals ----
+    # Orbitals
     orbit = {
         e["name"]: float(e["value"])
         for e in sbdb["orbit"]["elements"]
@@ -56,13 +57,12 @@ async def cross_keplarian(asteroid_id: str):
     }
     orbit["epoch"] = float(sbdb["orbit"]["epoch"])
 
-    # ---- Diameter ----
+    # Diameter
     dmin = neo["estimated_diameter"]["kilometers"]["estimated_diameter_min"]
     dmax = neo["estimated_diameter"]["kilometers"]["estimated_diameter_max"]
     davg = (dmin + dmax) / 2
-    scale_factor = davg / 1000  # adjust scaling constant as needed
 
-    # ---- Closest Earth approach ----
+    # Closest Earth approach
     earth_approaches = [a for a in neo["close_approach_data"] if a["orbiting_body"] == "Earth"]
     closest = None
     if earth_approaches:
@@ -78,7 +78,6 @@ async def cross_keplarian(asteroid_id: str):
         "name": neo["name"],
         "hazardous": neo["is_potentially_hazardous_asteroid"],
         "diameter_km": {"min": dmin, "max": dmax, "avg": davg},
-        "scale_factor": scale_factor,
         "orbit": orbit,
         "closest": closest,
     }
@@ -91,16 +90,16 @@ def asteroid_position(
     # Convert angles to radians
     i, om, w, ma = map(math.radians, (i, om, w, ma))
 
-    # Solve Kepler’s equation (Newton-Raphson refine)
+    # Solve Kepler’s equation
     E = ma
     for _ in range(10):
         E = E - (E - e * math.sin(E) - ma) / (1 - e * math.cos(E))
 
-    # Position in orbital plane
+    # Orbital plane
     x_orb = a * (math.cos(E) - e)
     y_orb = a * (math.sqrt(1 - e**2) * math.sin(E))
 
-    # Rotate into 3D space
+    # 3D transform
     X = (math.cos(om) * math.cos(w) - math.sin(om) * math.sin(w) * math.cos(i)) * x_orb \
         + (-math.cos(om) * math.sin(w) - math.sin(om) * math.cos(w) * math.cos(i)) * y_orb
     Y = (math.sin(om) * math.cos(w) + math.cos(om) * math.sin(w) * math.cos(i)) * x_orb \
@@ -108,6 +107,3 @@ def asteroid_position(
     Z = (math.sin(w) * math.sin(i)) * x_orb + (math.cos(w) * math.sin(i)) * y_orb
 
     return {"x": X, "y": Y, "z": Z}
-
-# To run: uvicorn backend.server:app --reload --port 8000
-
