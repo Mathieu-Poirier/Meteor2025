@@ -23,32 +23,51 @@
     </div>
   </header>
 
-  <main>
+  <main class="content-grid">
     <article class="description" aria-labelledby="simulator-title">
-      <div class="dial-group">
+      <div class="dial-group dial-group-left">
         <div class="dial dial-left" role="slider" aria-valuemin="-0.01" aria-valuemax="0.05" aria-valuenow="0.004" aria-label="Gravity dial">
           <div class="dial-indicator"></div>
         </div>
-        <div class="dial-label">
+        <div class="dial-label dial-label-left">
           <span class="label-title"><strong>Gravity</strong></span>
           <span class="label-value" id="gravity-value">0.004</span>
         </div>
       </div>
 
-      <h2 id="simulator-title" class="article_title">Our Asteroid Simulator</h2>
+      
+        <div class="sim-title">
+        <h2 id="simulator-title" class="article_title">Our Asteroid Simulator</h2>
+        </div>
 
-      <div class="dial-group">
+      <div class="dial-group dial-group-right">
         <div class="dial dial-right" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.65" aria-label="Bounce dial">
           <div class="dial-indicator"></div>
         </div>
-        <div class="dial-label">
+        <div class="dial-label dial-label-right">
           <span class="label-title"><strong>Bounce</strong></span>
           <span class="label-value" id="bounce-value">0.65</span>
         </div>
       </div>
     </article>
-    <article class="write-up">
-    </article>
+<article class="write-up">
+<div class="write-column">
+  <div class="write-section">
+    <h3 class="write-title">Title</h3>
+    <p class="write-body">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam erat... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam erat... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam erat...
+    </p>
+  </div>
+
+  <div class="write-section">
+    <h3 class="write-title">Long Title ...</h3>
+    <p class="write-body">
+      Vivamus consequat eget orci ac rutrum. Fusce bibendum lorem dignissim orci...
+    </p>
+  </div>
+  </div>
+</article>
+
   </main>
 
   <script type="module" src="js/dials.js"></script>
