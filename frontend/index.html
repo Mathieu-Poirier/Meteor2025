@@ -1,25 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Earth Demo</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>METEOR2025 — Earth Crater</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Three.js import map -->
   <script type="importmap">
   {
     "imports": {
       "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
       "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-
     }
   }
   </script>
-  <title>METEOR2025 — Earth Crater</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <button id="launch">Launch Asteroid</button>
+  <!-- Controls UI -->
+  <div id="controls">
+    <form id="asteroidForm">
+      <input type="text" id="asteroidId" placeholder="Enter asteroid ID" />
+      <button type="submit">Load Asteroid</button>
+    </form>
 
+    <div id="sliders">
+      <label>
+        a:
+        <input type="range" id="aSlider" min="0.5" max="3" step="0.01" value="1">
+        <span id="aVal">1</span>
+      </label>
+      <br>
+      <label>
+        e:
+        <input type="range" id="eSlider" min="0" max="1" step="0.01" value="0.1">
+        <span id="eVal">0.1</span>
+      </label>
+      <br>
+      <label>
+        i:
+        <input type="range" id="iSlider" min="0" max="180" step="1" value="0">
+        <span id="iVal">0</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- The Three.js scene will inject its canvas here -->
   <script type="module" src="js/main.js"></script>
+
+  <!-- Inline script to update displayed values -->
+  <script>
+    const sliders = [
+      { id: "aSlider", valId: "aVal" },
+      { id: "eSlider", valId: "eVal" },
+      { id: "iSlider", valId: "iVal" }
+    ];
+
+    sliders.forEach(({id, valId}) => {
+      const slider = document.getElementById(id);
+      const val = document.getElementById(valId);
+      slider.addEventListener("input", () => {
+        val.textContent = slider.value;
+      });
+    });
+  </script>
 </body>
 </html>
+

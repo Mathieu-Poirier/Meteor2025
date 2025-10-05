@@ -1,29 +1,44 @@
-from fastapi import FastAPI
-from fastapi import Query
+from fastapi import FastAPI, Query
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 import httpx
 import asyncio
 import math
+import os
+
+app = FastAPI()
+
+# Allow frontend JS fetch calls (if you open index.html separately)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # in hackathon mode, keep open
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Mount frontend (so index.html is served directly)
+frontend_path = os.path.join(os.path.dirname(__file__), "../frontend")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
 # Opening the APIKey
-f = open("../api.txt")
-KEY: str = f.read().strip(" ")
+with open(os.path.join(os.path.dirname(__file__), "../api.txt")) as f:
+    KEY: str = f.read().strip(" ")
 
-# Date to search
+# Date to search (if needed later)
 date_str_start: str = "2025-09-29"
 date_str_end: str = "2025-10-04"
 
-# Earth orbitals
+# Earth orbitals (constant baseline)
 earth = {
-  "a": 1.00000011,
-  "e": 0.01671022,
-  "i": 0.00005,
-  "om": -11.26064,
-  "w": 102.94719,
-  "ma": 100.46435,
-  "epoch": 2451545.0
+    "a": 1.00000011,
+    "e": 0.01671022,
+    "i": 0.00005,
+    "om": -11.26064,
+    "w": 102.94719,
+    "ma": 100.46435,
+    "epoch": 2451545.0,
 }
 
-app = FastAPI()
 @app.get("/cross_keplarian")
 async def cross_keplarian(asteroid_id: str):
     async with httpx.AsyncClient() as client:
@@ -33,39 +48,37 @@ async def cross_keplarian(asteroid_id: str):
         )
         neo, sbdb = neo_resp.json(), sbdb_resp.json()
 
-    # ---- Filter + flatten orbit ----
-    orbit = {e["name"]: float(e["value"])
-             for e in sbdb["orbit"]["elements"]
-             if e["name"] in ["a", "e", "i", "om", "w", "ma"]}
+    # ---- Orbitals ----
+    orbit = {
+        e["name"]: float(e["value"])
+        for e in sbdb["orbit"]["elements"]
+        if e["name"] in ["a", "e", "i", "om", "w", "ma"]
+    }
     orbit["epoch"] = float(sbdb["orbit"]["epoch"])
 
-    # ---- Filter closest Earth approach ----
-    earth_approaches = [
-        a for a in neo["close_approach_data"]
-        if a["orbiting_body"] == "Earth"
-    ]
+    # ---- Diameter ----
+    dmin = neo["estimated_diameter"]["kilometers"]["estimated_diameter_min"]
+    dmax = neo["estimated_diameter"]["kilometers"]["estimated_diameter_max"]
+    davg = (dmin + dmax) / 2
+    scale_factor = davg / 1000  # adjust scaling constant as needed
+
+    # ---- Closest Earth approach ----
+    earth_approaches = [a for a in neo["close_approach_data"] if a["orbiting_body"] == "Earth"]
     closest = None
     if earth_approaches:
-        closest = min(
-            earth_approaches,
-            key=lambda x: float(x["miss_distance"]["kilometers"])
-        )
-        # keep only essentials
+        c = min(earth_approaches, key=lambda x: float(x["miss_distance"]["kilometers"]))
         closest = {
-            "date": closest["close_approach_date_full"],
-            "miss_km": float(closest["miss_distance"]["kilometers"]),
-            "vel_kps": float(closest["relative_velocity"]["kilometers_per_second"])
+            "date": c["close_approach_date_full"],
+            "miss_km": float(c["miss_distance"]["kilometers"]),
+            "vel_kps": float(c["relative_velocity"]["kilometers_per_second"])
         }
 
-    # ---- Minimal return ----
     return {
         "id": asteroid_id,
         "name": neo["name"],
         "hazardous": neo["is_potentially_hazardous_asteroid"],
-        "diameter_km": {
-            "min": neo["estimated_diameter"]["kilometers"]["estimated_diameter_min"],
-            "max": neo["estimated_diameter"]["kilometers"]["estimated_diameter_max"],
-        },
+        "diameter_km": {"min": dmin, "max": dmax, "avg": davg},
+        "scale_factor": scale_factor,
         "orbit": orbit,
         "closest": closest,
     }
@@ -78,9 +91,9 @@ def asteroid_position(
     # Convert angles to radians
     i, om, w, ma = map(math.radians, (i, om, w, ma))
 
-    # Solve Kepler’s equation (approx) to get eccentric anomaly
+    # Solve Kepler’s equation (Newton-Raphson refine)
     E = ma
-    for _ in range(10):  # Newton-Raphson refine
+    for _ in range(10):
         E = E - (E - e * math.sin(E) - ma) / (1 - e * math.cos(E))
 
     # Position in orbital plane
@@ -95,3 +108,6 @@ def asteroid_position(
     Z = (math.sin(w) * math.sin(i)) * x_orb + (math.cos(w) * math.sin(i)) * y_orb
 
     return {"x": X, "y": Y, "z": Z}
+
+# To run: uvicorn backend.server:app --reload --port 8000
+
