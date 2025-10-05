@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🌟 Direct Drag Physics + Linear Infinite Dials Active");
 
   const star = document.querySelector(".star");
   const container = document.querySelector(".title-container");
