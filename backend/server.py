@@ -1,6 +1,8 @@
 from fastapi import FastAPI
+from fastapi import Query
 import httpx
 import asyncio
+import math
 
 # Opening the APIKey
 f = open("../api.txt")
@@ -67,3 +69,29 @@ async def cross_keplarian(asteroid_id: str):
         "orbit": orbit,
         "closest": closest,
     }
+
+@app.get("/asteroid_position")
+def asteroid_position(
+    a: float = Query(...), e: float = Query(...), i: float = Query(...),
+    om: float = Query(...), w: float = Query(...), ma: float = Query(...)
+):
+    # Convert angles to radians
+    i, om, w, ma = map(math.radians, (i, om, w, ma))
+
+    # Solve Kepler’s equation (approx) to get eccentric anomaly
+    E = ma
+    for _ in range(10):  # Newton-Raphson refine
+        E = E - (E - e * math.sin(E) - ma) / (1 - e * math.cos(E))
+
+    # Position in orbital plane
+    x_orb = a * (math.cos(E) - e)
+    y_orb = a * (math.sqrt(1 - e**2) * math.sin(E))
+
+    # Rotate into 3D space
+    X = (math.cos(om) * math.cos(w) - math.sin(om) * math.sin(w) * math.cos(i)) * x_orb \
+        + (-math.cos(om) * math.sin(w) - math.sin(om) * math.cos(w) * math.cos(i)) * y_orb
+    Y = (math.sin(om) * math.cos(w) + math.cos(om) * math.sin(w) * math.cos(i)) * x_orb \
+        + (-math.sin(om) * math.sin(w) + math.cos(om) * math.cos(w) * math.cos(i)) * y_orb
+    Z = (math.sin(w) * math.sin(i)) * x_orb + (math.cos(w) * math.sin(i)) * y_orb
+
+    return {"x": X, "y": Y, "z": Z}

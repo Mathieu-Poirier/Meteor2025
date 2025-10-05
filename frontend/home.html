@@ -22,11 +22,16 @@
 
     <div class="title-c">
       <h1 class="title-t">The Year is 20XX</h1>
-      <p class="title-t2">It's your job to defend the earth</p>
+      <p class="title-t2">Discern the threat of near earth asteroids.</p>
     </div>
 
     <div class="title-btn-container">
-      <button class="title-btn" aria-label="Enter simulation">Enter The Simulation</button>
+      <button  id="simBtn" class="title-btn" aria-label="Enter simulation">Enter the simulation</button>
+      <script>
+        document.getElementById("simBtn").onclick = () => {
+        window.location.href = "index.html";
+        };
+      </script>
     </div>
   </header>
 
