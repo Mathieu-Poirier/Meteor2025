@@ -60,19 +60,44 @@
 <article class="write-up">
 <div class="write-column">
   <div class="write-section">
-    <h3 class="write-title">Title</h3>
+    <h3 class="write-title">About the Team</h3>
     <p class="write-body">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam erat... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam erat... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at diam erat...
+      We are a small interdisciplinary team of two Computer Science students and one Mechatronics engineer. Our skills span full-stack web development, embedded systems, and data-driven modeling. What unites us is a shared curiosity about space and a belief that scientific data should be accessible, engaging, and understandable to everyone—not just researchers.
     </p>
   </div>
 
   <div class="write-section">
-    <h3 class="write-title">Long Title ...</h3>
+    <h3 class="write-title">Why This Project?</h3>
     <p class="write-body">
-      Vivamus consequat eget orci ac rutrum. Fusce bibendum lorem dignissim orci...
+      Asteroids may seem like distant threats, but the discovery of near-Earth objects such as “Impactor-2025” highlights the very real possibility of an impact. Most existing tools are either too technical for public audiences or too simplistic for meaningful analysis. We chose this challenge because it blends our interests in space, simulation, and visualization, and allows us to contribute something impactful: a tool that makes planetary defense data approachable for scientists, policymakers, and the public alike.
     </p>
   </div>
+
+  <div class="write-section">
+    <h3 class="write-title">Our Data Sources</h3>
+    <p class="write-body">
+        On the backend, we built a FastAPI service that wraps NASA’s NEO and SBDB APIs into a single clean endpoint. Given an asteroid ID, it returns just the orbital elements required for trajectory reconstruction (a, e, i, Ω, ω, M), plus basic physical properties (diameter, hazard flag) and closest Earth approach (date, miss distance, relative velocity). This lets the frontend simulation work directly with clean inputs without worrying about API inconsistencies or bulky JSON.
+    </p>
   </div>
+
+  <div class="write-section">
+    <h3 class="write-title">Our Vision</h3>
+    <p class="write-body">
+      We aim to create an interactive tool where users can explore “what-if” scenarios—adjusting asteroid parameters, testing deflection strategies, and seeing the predicted outcomes. Whether as an educational tool or a decision-support platform, our goal is to bridge the gap between complex orbital science and accessible, intuitive visualizations that empower better understanding of planetary risks.
+    </p>
+  </div>
+</div>
+ <h3 class="write-title">
+    <a href="https://github.com/Mathieu-Poirier/Meteor2025" target="_blank" rel="noopener noreferrer">
+      Check Us Out on GitHub
+    </a>
+  </h3>
+  <p class="write-body">
+    Curious about how it all works under the hood? You can explore our codebase on 
+    <a href="https://github.com/Mathieu-Poirier/Meteor2025" target="_blank" rel="noopener noreferrer">
+      GitHub
+    </a>, where we bring together FastAPI, NASA’s APIs, and a frontend simulation that visualizes asteroid trajectories in 3D.
+  </p>
 </article>
 
   </main>
