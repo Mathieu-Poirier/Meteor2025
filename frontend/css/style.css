@@ -142,30 +142,41 @@ body {
 
 
 .title-btn {
+  position: relative;
+  display: inline-block;
   font-size: clamp(0.9rem, 1.3rem + 0.4vw, 2rem);
   font-family: 'Orbitron', system-ui, sans-serif;
   color: white;
-  background: rgba(255, 255, 255, 0.05);  /* translucent dark surface */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 1.5rem;  /* curved rectangle */
-  padding: 0.8rem 2rem;   /* space inside button */
-  text-decoration: none;  /* removes underline if it's a link */
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1.5rem;
+  padding: 0.8rem 2rem;
+  text-decoration: none;
   text-align: center;
   cursor: pointer;
-  opacity: 0;  /* starts hidden for your animation */
-  transition: all 0.25s ease-in-out;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    background 0.25s ease-in-out,
+    color 0.25s ease-in-out,
+    transform 0.25s ease-in-out,
+    border 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out;
+  z-index: 0;
 }
 
+/* Simple hover: highlight fully */
 .title-btn:hover {
-  background: white;              /* fill background fully */
-  color: black;                   /* invert text color */
-  transform: scale(1.08);         /* slightly larger (8% bigger) */
-  border-color: white;            /* keeps edge clean */
+  background: white;                /* fully white highlight */
+  color: black;                     /* invert text color */
+  transform: scale(1.08);           /* gentle pop */
+  border-color: white;              /* clean edge */
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* soft glow */
 }
 
+/* Press down effect */
 .title-btn:active {
-  transform: scale(1.02); /* slight push-in when clicked */
+  transform: scale(1.02);
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
